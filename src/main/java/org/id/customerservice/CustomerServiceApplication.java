@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.config.Projection;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,8 +46,9 @@ interface CustomerRepository extends JpaRepository <Customer,Long > {}
 		}
 
 		@Bean
-		CommandLineRunner start(CustomerRepository customerRepository) {
+		CommandLineRunner start(CustomerRepository customerRepository, RepositoryRestConfiguration repositoryRestConfiguration) {
 			return args -> {
+				repositoryRestConfiguration.exposeIdsFor(Customer.class);
 				customerRepository.save(new Customer(null, "Enset", "contact@enset media.ma"));
 				customerRepository.save(new Customer(null, "FSTM", "contact@fstm.ma"));
 				customerRepository.save(new Customer(null, "ENSAM", "contact@ensam.ma"));
